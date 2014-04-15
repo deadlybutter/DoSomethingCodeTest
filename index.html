@@ -23,10 +23,23 @@
 
 			$(document).ready(function(){
 				console.log(schoolData);
+
+				if("geolocation" in navigator){
+					navigator.geolocation.getCurrentPosition(function(posistion){
+						var schoolsList = schoolData.results;
+						$('.results').empty();
+						for(var index = 0; index < schoolsList.length; index++){
+							if(schoolsList[index].lat == posistion.latitue && schoolsList[index].lon == posistion.longtitude){
+								$('.results').append('<p>' + schoolsList[index].name + "</p>");
+							}
+						}						
+					});
+				}
+
 				$('.submit-button').click(function(){
-					//console.log($('.zipcode-input').val());
 					var zipcode = $('.zipcode-input').val();
 					var schoolsList = schoolData.results;
+					$('.results').empty();
 					for(var index = 0; index < schoolsList.length; index++){
 						if(schoolsList[index].zip == zipcode){
 							$('.results').append('<p>' + schoolsList[index].name + "</p>");
